@@ -14,7 +14,7 @@ export class EntrarComponent implements OnInit {
   usuarioLogin: usuarioLogin = new usuarioLogin()
 
   constructor(
-    private authService: AuthService,
+    private auth: AuthService,
     private router: Router
   ) { }
 
@@ -23,30 +23,21 @@ export class EntrarComponent implements OnInit {
   }
 
   entrar(){
-    this.authService.entrar(this.usuarioLogin).subscribe((resp: usuarioLogin) =>{
+    this.auth.entrar(this.usuarioLogin).subscribe((resp: usuarioLogin) =>{
       this.usuarioLogin = resp
+      this.router.navigate(['/inicio'])
 
       environment.token = this.usuarioLogin.token
       environment.nome = this.usuarioLogin.nome
       environment.foto = this.usuarioLogin.foto
       environment.id = this.usuarioLogin.id
-
-    
       
-
-
-
-
-      this.usuarioLogin.foto
-
-      this.router.navigate(["/inicio"])
+      
     }, erro =>{
       if(erro.status == 500){
         alert("Usuário ou senha estão incorretos")
       }
-    }
-     
-    )
+    })
   }
 
 }
